@@ -10,7 +10,7 @@ module.exports = {
      * Example:
      **/
     const saltRounds = 10;
-    const myPlaintextPassword = 'Dannycali01.';
+    const myPlaintextPassword = '123456';
     const password = await bcrypt.hash(myPlaintextPassword, saltRounds);
     
     await queryInterface.bulkInsert('users', [{

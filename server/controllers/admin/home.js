@@ -7,5 +7,5 @@ import Home from '../../../frontend/admin/pages/Home';
 
 exports.index = async function (req, res) {
   const reactComp = renderToString(<Home />);
-  res.status(200).render('admin/home', { layout: 'admin.hbs', reactApp: reactComp });
+  res.status(200).render('admin/index', { layout: 'admin.hbs', reactApp: reactComp, file: 'home' });
 }

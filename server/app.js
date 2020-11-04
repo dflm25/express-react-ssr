@@ -39,9 +39,7 @@ app.use(session({
   secret: 'e8b71696-1d73-4ac0-af5c-037db2382715',
   resave: false,
   saveUninitialized: false,
-  cookie: {
-      expires: 600000
-  }
+  cookie: { expires: 9000000 }
 }));
 
 database.sequelize

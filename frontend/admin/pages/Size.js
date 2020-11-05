@@ -19,17 +19,20 @@ const columns = [
   },
 ];
 
-const getData = async () => {
-  return await getSizeData();
-}
-
 const Size = () => {
   const [data, setData] = useState({});
   const [page, setPage] = useState(1);
   const countPerPage = 3;
 
   useEffect(()=> {
-    setData(getData());
+    console.log('component did mount');
+    
+    const getData = async () => {
+       const response = await getSizeData();
+      setData(response);
+    }
+
+    getData();
   }, []);
   
   return (

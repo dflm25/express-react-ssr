@@ -11,7 +11,7 @@ import Header from '../components/admin/Header';
 import SideBar from '../components/admin/SideBar';
 
 const Admin = (props) => {
-  const { children } = props;
+  const { children, title } = props;
   const stateMenu = useSelector(state => state.stateMenu);
 
   useEffect(()=> {
@@ -25,7 +25,7 @@ const Admin = (props) => {
   return (
     <div id="app">
       <Head>
-        <title>Test</title>
+        <title>{title}</title>
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous" />
       </Head>
       <div className="main-wrapper">
@@ -35,7 +35,7 @@ const Admin = (props) => {
         <div className="main-content">
           <section className="section">
             <div className="section-header">
-              <h1>Blank Page</h1>
+              <h1>{title}</h1>
             </div>
             <div className="section-body">
               {children}

@@ -5,13 +5,11 @@
 import pathMatch from 'path-match';
 import app from '../../app';
 import db from '../../../database';
-import { parse } from 'url';
 
 const route = pathMatch();
 
 exports.index = async function (req, res) {
-  const params = route('/admin/:id')(parse(req.url).pathname);
-  return app.render(req, res, '/admin', params);
+  return app.render(req, res, '/auth/login');
 }
 
 exports.login = async function (req, res) {
@@ -19,7 +17,7 @@ exports.login = async function (req, res) {
 
   db.User.findOne({ where: { email: email } }).then(function (user) {
     if (!user || !user.validPassword(password)) {
-        res.redirect('/admin/login');
+        res.redirect('/auth/login');
     } else {
         req.session.user = user.dataValues;
         res.redirect('/admin');

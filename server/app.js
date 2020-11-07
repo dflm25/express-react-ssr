@@ -36,11 +36,14 @@ app.prepare().then(() => {
   server.use(express.urlencoded({ extended: false }));
   server.use(cookieParser());
   server.use(session({
-    key: 'user_sid',
+    // key: 'user_sid',
     secret: 'e8b71696-1d73-4ac0-af5c-037db2382715',
     resave: false,
-    saveUninitialized: false,
-    cookie: { maxAge: 90000 }
+    saveUninitialized: true,
+    cookie: { 
+      secure: false,
+      maxAge: 90000
+    }
   }));
 
   // Application routes

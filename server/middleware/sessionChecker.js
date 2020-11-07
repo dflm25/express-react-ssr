@@ -4,8 +4,8 @@
  */
 
 const sessionChecker = (req, res, next) => {
-  if (req.originalUrl !== '/admin/login' && !req.session.user && !req.cookies.user_sid) {
-    res.redirect('/admin/login');
+  if (req.originalUrl !== '/auth/login' && !req.session.user && !req.cookies.user_sid) {
+    res.redirect('/auth/login');
   } else {
     next();
   }    

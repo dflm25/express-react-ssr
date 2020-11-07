@@ -8,7 +8,7 @@ import Admin from '../../layouts/Admin';
 const Index = () => {
 
   return (
-    <Admin>
+    <Admin title="Dashboard">
         <a className="btn btn-warning">Hello</a>
     </Admin>
   );

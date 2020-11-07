@@ -8,7 +8,7 @@ import Admin from '../../layouts/Admin';
 const Index = () => {
 
   return (
-    <Admin>
+    <Admin title="Size administrator">
         <a className="btn btn-warning">Hello size</a>
     </Admin>
   );

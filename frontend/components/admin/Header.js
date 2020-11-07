@@ -2,14 +2,21 @@
  * Sidebar
  */
 import React from 'react';
+import { useDispatch } from 'react-redux';
+import { setToggleMenu } from '../../redux/actions';
 
 const Header = () => {
+  const dispatch = useDispatch();  
 
   return (
     <nav className="navbar navbar-expand-lg main-navbar">
         <form className="form-inline mr-auto">
           <ul className="navbar-nav mr-3">
-            <li><a href="#" data-toggle="sidebar" className="nav-link nav-link-lg"><i className="fas fa-bars"></i></a></li>
+            <li>
+              <a onClick={()=>dispatch(setToggleMenu())} data-toggle="sidebar" className="nav-link nav-link-lg">
+                <i className="fas fa-bars"></i>
+              </a>
+            </li>
             <li><a href="#" data-toggle="search" className="nav-link nav-link-lg d-sm-none"><i className="fas fa-search"></i></a></li>
           </ul>
         </form>
@@ -38,33 +45,6 @@ const Header = () => {
                   <div className="dropdown-item-desc">
                     <b>You</b> and <b>Dedik Sugiharto</b> are now friends
                     <div className="time">10 Hours Ago</div>
-                  </div>
-                </a>
-                <a href="#" className="dropdown-item">
-                  <div className="dropdown-item-icon bg-success text-white">
-                    <i className="fas fa-check"></i>
-                  </div>
-                  <div className="dropdown-item-desc">
-                    <b>Kusnaedi</b> has moved task <b>Fix bug header</b> to <b>Done</b>
-                    <div className="time">12 Hours Ago</div>
-                  </div>
-                </a>
-                <a href="#" className="dropdown-item">
-                  <div className="dropdown-item-icon bg-danger text-white">
-                    <i className="fas fa-exclamation-triangle"></i>
-                  </div>
-                  <div className="dropdown-item-desc">
-                    Low disk space. Let's clean it!
-                    <div className="time">17 Hours Ago</div>
-                  </div>
-                </a>
-                <a href="#" className="dropdown-item">
-                  <div className="dropdown-item-icon bg-info text-white">
-                    <i className="fas fa-bell"></i>
-                  </div>
-                  <div className="dropdown-item-desc">
-                    Welcome to Stisla template!
-                    <div className="time">Yesterday</div>
                   </div>
                 </a>
               </div>

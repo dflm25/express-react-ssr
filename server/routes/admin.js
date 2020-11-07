@@ -10,7 +10,7 @@ import { sessionChecker } from '../middleware';
 
 const router = express.Router();
 
-router.get('/', sessionChecker, homeController.index);
+router.get('/', homeController.index);
 router.get('/sizes', sessionChecker, sizeController.index);
 router.get('/login', sessionChecker, loginController.index);
 router.post('/login', sessionChecker, loginController.login);

@@ -5,42 +5,18 @@ import express from 'express';
 import path from 'path';
 import cookieParser from 'cookie-parser';
 import logger from 'morgan';
-import exphbs from 'express-handlebars';
 import bodyParser from 'body-parser';
 import session from 'express-session';
 import database from '../database';
+import next from 'next';
 import {handleErrors, handleSession} from './middleware';
 
 // routes
 import routes from './routes';
 
-const app = express();
-
-// View engine setup
-app.engine('.hbs', exphbs({
-  extname: '.hbs',
-  defaultLayout: 'main',
-  partialsDir: path.join(__dirname, '../views/partials'),
-  layoutsDir: path.join(__dirname, '../views/layouts')
-}));
-app.set('view engine', '.hbs');
-app.set('views',path.join(__dirname, '../views'));
-
-app.use(logger('dev'));
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, '../public')));
-
-// initialize express-session to allow us track the logged-in user across sessions.
-app.use(session({
-  key: 'user_sid',
-  secret: 'e8b71696-1d73-4ac0-af5c-037db2382715',
-  resave: false,
-  saveUninitialized: false,
-  cookie: { expires: 9000000 }
-}));
+const dev = process.env.NODE_ENV !== 'production'
+const app = next({ dev, dir: './frontend' });
+const handle = app.getRequestHandler();
 
 database.sequelize
  .authenticate()
@@ -52,8 +28,38 @@ database.sequelize
 });
 
 // setting routes
-routes(app);
+app.prepare().then(() => {
+  const server = express();
+  server.use(logger('dev'));
+  server.use(bodyParser.urlencoded({ extended: true }));
+  server.use(express.json());
+  server.use(express.urlencoded({ extended: false }));
+  server.use(cookieParser());
+  server.use(session({
+    key: 'user_sid',
+    secret: 'e8b71696-1d73-4ac0-af5c-037db2382715',
+    resave: false,
+    saveUninitialized: false,
+    cookie: { maxAge: 90000 }
+  }));
 
+  // Application routes
+  routes(server, app);
+  
+  server.get('*', (req, res) => {
+    return handle(req, res);
+  });
+
+  // Manejador de errores
+
+  server.listen(3000, (err) => {
+    if (err) throw err;
+    console.log('Server ready on http://localhost:3000');
+  });
+});
+
+export default app;
+/*
 // handle session
 handleSession(app);
 
@@ -71,5 +77,4 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error', { code :  err.status });
 });
-
-module.exports = app;
+*/

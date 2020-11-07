@@ -10,6 +10,6 @@ import { sessionChecker } from '../middleware';
 const router = express.Router();
 
 router.get('/', homeController.index);
-router.get('/sizes', sessionChecker, sizeController.index);
+router.get('/sizes', sizeController.index);
 
 export default router

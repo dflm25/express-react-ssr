@@ -8,6 +8,7 @@ import { parse } from 'url';
 const route = pathMatch();
 
 exports.index = async function (req, res) {
-  const params = route('/admin/:id')(parse(req.url).pathname);
-  return app.render(req, res, '/admin', params);
+  // console.log('Session', req.session.user);
+  // const params = route('/admin/:id')(parse(req.url).pathname);
+  return app.render(req, res, '/admin' /*, params*/);
 }

@@ -2,14 +2,14 @@
  * Server app
  */
 import express from 'express';
-import path from 'path';
+import passport from '../server/passport';
 import cookieParser from 'cookie-parser';
 import logger from 'morgan';
 import bodyParser from 'body-parser';
 import session from 'express-session';
 import database from '../database';
 import next from 'next';
-import {handleErrors, handleSession} from './middleware';
+import {handleErrors, handleSession } from './middleware';
 
 // routes
 import routes from './routes';
@@ -45,6 +45,10 @@ app.prepare().then(() => {
       maxAge: 90000
     }
   }));
+
+  // Passport auth
+  server.use(passport.initialize());
+  server.use(passport.session());
 
   // Application routes
   routes(server, app);

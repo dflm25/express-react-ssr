@@ -6,21 +6,27 @@
 const { Model } = require('sequelize');
 import bcrypt from 'bcrypt';
 
+const PROTECTED_ATTRIBUTES = ['password', 'updatedAt'];
+
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
     static associate(models) {
       // define association here
+    }
+
+    toJSON () {
+      let attributes = Object.assign({}, this.get())
+      for (let a of PROTECTED_ATTRIBUTES) {
+        delete attributes[a]
+      }
+      return attributes
     }
 
     validPassword (password) {
       return bcrypt.compareSync(password, this.password);
     }
   };
+
   User.init({
     username: DataTypes.STRING,
     email: DataTypes.STRING,

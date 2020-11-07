@@ -10,8 +10,7 @@ import Footer from '../components/admin/Footer';
 import Header from '../components/admin/Header';
 import SideBar from '../components/admin/SideBar';
 
-const Admin = (props) => {
-  const { children, title } = props;
+const Admin = ({ children, title }) => {
   const stateMenu = useSelector(state => state.stateMenu);
 
   useEffect(()=> {
@@ -47,5 +46,16 @@ const Admin = (props) => {
     </div>
   )
 }
+
+/*
+export async function getServerSideProps({ req, res }) {
+  console.log('Entre aqui::::::::::::::::::::::::::::;', req.session);
+  await applySession(req, res, options);
+  return {
+    props: {
+      views: req.session.user
+    }
+  }
+}*/
 
 export default Admin;

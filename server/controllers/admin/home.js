@@ -1,11 +1,13 @@
 /**
  * Rooms controller
  */
-import React from "react";
-import {renderToString} from "react-dom/server";
-import Home from '../../../frontend/admin/pages/Home';
+import app from '../../app';
+import pathMatch from 'path-match';
+import { parse } from 'url';
+
+const route = pathMatch();
 
 exports.index = async function (req, res) {
-  const reactComp = renderToString(<Home />);
-  res.status(200).render('admin/index', { layout: 'admin.hbs', reactApp: reactComp, file: 'home' });
+  const params = route('/admin/:id')(parse(req.url).pathname);
+  return app.render(req, res, '/admin', params);
 }

@@ -1,13 +1,17 @@
 /**
  * Rooms controller
  */
-import path from 'path';
-import { defaultMaxListeners } from 'stream';
+
+import pathMatch from 'path-match';
+import app from '../../app';
 import db from '../../../database';
+import { parse } from 'url';
+
+const route = pathMatch();
 
 exports.index = async function (req, res) {
-  const currentYear = new Date().getFullYear();
-  res.render('admin/auth/login', { currentYear });
+  const params = route('/admin/:id')(parse(req.url).pathname);
+  return app.render(req, res, '/admin', params);
 }
 
 exports.login = async function (req, res) {

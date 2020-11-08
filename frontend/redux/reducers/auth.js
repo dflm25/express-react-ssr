@@ -29,6 +29,33 @@ const authLogin = (state, payload) => {
   return stateObj;
 };
 
+const checkAuth = (state) => {
+  if (process.browser) {
+    const stateObj = Object.assign({}, state, {
+      isAuthenticated: !!localStorage.getItem('access_token'),
+      user: JSON.parse(localStorage.getItem('user')),
+    });
+    if (state.isAuthenticated) {
+      Http.defaults.headers.common.Authorization = `Bearer ${localStorage.getItem('access_token')}`;
+    }
+    return stateObj;
+  }
+  return false;
+};
+
+const logout = (state) => {
+  const stateObj = false;
+  if (process.browser) {
+    localStorage.removeItem('access_token');
+    localStorage.removeItem('user');
+    const stateObj = Object.assign({}, state, {
+      isAuthenticated: false,
+      user: defaultUser,
+    });
+  }
+  return stateObj;
+};
+
 const Auth = (state = initialState, { type, payload = null }) => {
   switch (type) {
     case AUTH_LOGIN:
@@ -43,4 +70,3 @@ const Auth = (state = initialState, { type, payload = null }) => {
 };
 
 export default Auth;
-

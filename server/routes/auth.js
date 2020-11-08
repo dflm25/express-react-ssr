@@ -7,8 +7,8 @@ import { sessionChecker } from '../middleware';
 
 const router = express.Router();
 
-router.get('/login', sessionChecker, loginController.index);
-router.post('/login', sessionChecker, loginController.login);
-router.get('/logout', sessionChecker, loginController.login);
+router.get('/login', loginController.index);
+router.post('/login', loginController.login);
+router.get('/logout', loginController.login);
 
 export default router

@@ -1,8 +1,22 @@
 {
   "sizeColumns": [
-    "id",
-    "name",
-    "status",
-    "Actions"
+    {
+      "name": "Id",
+      "selector": "id",
+      "sortable": true,
+      "center": true
+    },
+    {
+      "name": "Name",
+      "selector": "name",
+      "sortable": true,
+      "center": true
+    },
+    {
+      "name": "Status",
+      "selector": "status",
+      "sortable": true,
+      "center": true
+    }
   ]
 }

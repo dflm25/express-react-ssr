@@ -3,33 +3,50 @@
  */
 
 import React, { useEffect, useState } from 'react';
-import Admin from '../../layouts/Admin';
+import { InputGroup, InputGroupAddon, InputGroupText, Input } from 'reactstrap';
 import Datatable from '../../components/datatable';
+
+import Admin from '../../layouts/Admin';
 import { sizeColumns } from '../../data/index.json';
 import { getSizeData } from '../../services/size';
 
-const loadDatatable = async (data, setData) => {
+const loadDatatable = async (data, action) => {
   const response = await getSizeData(data);
-  setData(response.rows);
+  action.setData(response.rows);
+  action.setTotal(response.count);
+  action.setLoading(false);
 }
 
 const Index = () => {
+  const [term, setTerm] = useState('');
+  const [loading, setLoading] = useState(false);
   const [data, setData] = useState(false);
   const [limit, setLimit] = useState(4);
   const [page, setPage] = useState(0);
-
-  const nextPage = () => {
-    setPage(page + limit);
-  }
-
-  const previousPage = () => {
-    setPage(page - limit);
-  }
+  const [total, setTotal] = useState(10);
 
   useEffect(() => {
-
-    const response = loadDatatable({ limit, page }, setData);
+    setLoading(true);
+    const response = loadDatatable({ limit, page }, {
+      setData,
+      setTotal,
+      setPage,
+      setLimit,
+      setLoading
+    });
   }, [page, limit]);
+
+  const openModalForm = () => {
+
+  }
+
+  const handlePerRowsChange = (perPage, page) => {
+    setLimit(perPage);
+  }
+
+  const handlePageChange = page => {
+    setPage(page -1);
+  }
 
   return (
     <Admin title="Size administrator">
@@ -37,17 +54,23 @@ const Index = () => {
         <div className="col-12">
           <div className="card">
             <div className="card-header">
-              <h4><a onClick="" className="btn btn-info">Create a size</a></h4>
+              <h4><a onClick={openModalForm} className="btn btn-info">Create a size</a></h4>
             </div>
             <div className="card-body">
+              <InputGroup>
+                <InputGroupAddon addonType="prepend">
+                  <InputGroupText>@</InputGroupText>
+                </InputGroupAddon>
+                <Input placeholder="username" />
+              </InputGroup>
 
-              <Datatable 
+              <Datatable
                 columns={sizeColumns}
                 data={data}
-                actions={{
-                  nextPage,
-                  previousPage
-                }}
+                loading={loading}
+                paginationTotalRows={total}
+                handlePerRowsChange={handlePerRowsChange}
+                handlePageChange={handlePageChange}
               />
             </div>
           </div>

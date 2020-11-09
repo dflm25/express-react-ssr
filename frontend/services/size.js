@@ -1,11 +1,11 @@
 /**
  * Services for size admin
  */
-import axios from 'axios';
+import Http from './Http';
 
-export const getSizeData = () => {
+export const getSizeData = (credentials) => {
   return new Promise((resolve, reject) => {
-    axios.get('/admin/sizes')
+    Http.get('/admin/size/datatable', { params: credentials })
     .then(function (response) {
       resolve(response.data);
     })

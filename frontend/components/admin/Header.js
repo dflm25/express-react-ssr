@@ -1,13 +1,20 @@
 /**
  * Sidebar
  */
-import React from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { setToggleMenu } from '../../redux/actions';
+import Avatar from 'react-avatar';
 
 const Header = () => {
-  const dispatch = useDispatch();  
+  const dispatch = useDispatch();
+  const { user = { username: '' } } = useSelector(state => state.auth);
+  const [dropdownProfile, setDropdownProfile] = useState(false);
 
+  const handleShowProfile = () => {
+    setDropdownProfile(!dropdownProfile);
+  }
+  
   return (
     <nav className="navbar navbar-expand-lg main-navbar">
         <form className="form-inline mr-auto">
@@ -53,10 +60,12 @@ const Header = () => {
               </div>
             </div>
           </li>
-          <li className="dropdown"><a href="#" data-toggle="dropdown" className="nav-link dropdown-toggle nav-link-lg nav-link-user">
-            <img alt="image" src="../assets/img/avatar/avatar-1.png" className="rounded-circle mr-1" />
-            <div className="d-sm-none d-lg-inline-block">Hi, Ujang Maman</div></a>
-            <div className="dropdown-menu dropdown-menu-right">
+          <li><Avatar onClick={handleShowProfile} name={user.username} size="34" round={true} /></li>
+          <li className={`dropdown ${dropdownProfile ? 'show' : ''}`}>
+            <a onClick={handleShowProfile} data-toggle="dropdown" className="nav-link dropdown-toggle nav-link-lg nav-link-user">
+              <div className="d-sm-none d-lg-inline-block">{user.username}</div>
+            </a>
+            <div className={`dropdown-menu dropdown-menu-right ${dropdownProfile ? 'show' : ''}`}>
               <div className="dropdown-title">Logged in 5 min ago</div>
               <a href="features-profile.html" className="dropdown-item has-icon">
                 <i className="far fa-user"></i> Profile
